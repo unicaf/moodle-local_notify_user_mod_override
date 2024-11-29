@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/course_reminder/db" VERSION="20230616" COMMENT="XMLDB file for Moodle local/course_reminder"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_course_reminder" COMMENT="Default comment for local_course_reminder">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Course ID"/>
+        <FIELD NAME="enable" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="If set to 1 then emails will be sent if set to NULL or 0 , emails will not be sent"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="relatedcourse" TYPE="unique" FIELDS="courseid" COMMENT="Related course from Course table ID"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_course_reminder_email" COMMENT="This table shows if the email has been sent to the user">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="USER ID FROM MOODLE"/>
+        <FIELD NAME="emailsent" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Has the email been sent"/>
+        <FIELD NAME="emailtime" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Email sent time"/>
+        <FIELD NAME="assignmentdate" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Assignment Date Original"/>
+        <FIELD NAME="assignmentoverridedate" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Assignment Overwrite Date"/>
+        <FIELD NAME="coursemodulesid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course_modules table ID"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="Student ID KEY from moodle USER ID"/>
+        <KEY NAME="coursemodulesid" TYPE="foreign" FIELDS="coursemodulesid" REFTABLE="course_modules" REFFIELDS="id" COMMENT="ID from course_modules"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
